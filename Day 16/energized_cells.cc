@@ -41,12 +41,59 @@ public: // change it back to private
 
 public: 
     Maze(std::vector<std::string>& grid_in) : grid(grid_in) {}
-
+    // Return the most highest possible number of energized cells
+    int getMaxPossibleEnergizedCells() {
+        int max = 0;
+        // Iterating over top edge
+        int temp = getEnergizedCells(Beam(std::make_pair(0,0), right));
+        max = temp > max ? temp : max;
+        temp = getEnergizedCells(Beam(std::make_pair(0,0), down));
+        max = temp > max ? temp : max;
+        for (int i = 1; i < grid.at(0).size()-1; i++) {
+            temp = getEnergizedCells(Beam(std::make_pair(0,i), down));
+            max = temp > max ? temp : max;
+        }
+        cout << "Max: " << max;
+        // Iterating over right edge
+        temp = getEnergizedCells(Beam(std::make_pair(0,grid.at(0).size()-1), down));
+        max = temp > max ? temp : max;
+        temp = getEnergizedCells(Beam(std::make_pair(0,grid.at(0).size()-1), left));
+        max = temp > max ? temp : max;
+        for (int i = 1; i < grid.size()-1; i++) {
+            temp = getEnergizedCells(Beam(std::make_pair(i, grid.at(0).size()-1), left));
+        }
+        cout << "Max: " << max;
+        // Iterating over bottom edge
+        temp = getEnergizedCells(Beam(std::make_pair(grid.size()-1, grid.at(0).size()-1), up));
+        max = temp > max ? temp : max;
+        temp = getEnergizedCells(Beam(std::make_pair(grid.size()-1, grid.at(0).size()-1), left));
+        max = temp > max ? temp : max;
+        for (int i = 1; i < grid.at(0).size()-1; i++) {
+            temp = getEnergizedCells(Beam(std::make_pair(grid.size()-1, i), up));
+            max = temp > max ? temp : max;
+        }
+        cout << "Max: " << max;
+        // Iterating over left edge
+        temp = getEnergizedCells(Beam(std::make_pair(grid.size()-1, 0), up));
+        max = temp > max ? temp : max;
+        temp = getEnergizedCells(Beam(std::make_pair(grid.size()-1, 0), right));
+        max = temp > max ? temp : max;
+        for (int i = 1; i < grid.size()-1; i++) {
+            temp = getEnergizedCells(Beam(std::make_pair(i, 0), right));
+            max = temp > max ? temp : max;
+        }
+        cout << "Max: " << max;
+        return max;
+    }
     // Return the number of cells through which at least one beam has passed.
-    int getEnergizedCells() {
+    int getEnergizedCellsFromTopLeft() {
+        return getEnergizedCells(Beam(std::make_pair(0,0), right));
+    }
+private:
+    int getEnergizedCells(Beam initialBeam) {
         std::queue<Beam> process;
         std::set<Beam> visited;
-        process.push(Beam(std::make_pair(0, 0), right));
+        process.push(Beam(initialBeam));
         
         while (!process.empty()) {
             Beam curr = process.front();

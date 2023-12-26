@@ -21,6 +21,7 @@ int main(int argc, char* argv[]) {
 	std::vector<std::string> matrix = reader.getMatrix();
 	std::cout << "Size of the matrix: " << matrix.size() << " x " << matrix.at(0).size() << "\n";
 	Day16::Maze maze(matrix);
-	std::cout << "Number of Enegrized cells: " << maze.getEnergizedCells();
+	std::cout << "Number of Enegrized cells: " << maze.getEnergizedCellsFromTopLeft();
+	std::cout << "Max number of energized cells possible: " << maze.getMaxPossibleEnergizedCells();
 	return 0;
 }
