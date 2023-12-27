@@ -5,6 +5,6 @@ if [ -z "$1" ]
   then
     git commit -m "generalized commit"
 else
-    git commit -m $1
+    git commit -m "$1"
 fi
 git push origin main
